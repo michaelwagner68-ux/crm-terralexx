@@ -1,0 +1,11 @@
+{
+  "name": "terralexx-crm",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Terralexx CRM – Vertriebstool mit Netlify Database",
+  "type": "commonjs",
+  "engines": {"node": ">=20"},
+  "dependencies": {
+    "@netlify/neon": "^0.1.2"
+  }
+}

@@ -1,0 +1,30 @@
+# Terralexx CRM – Anwendung plus Serverfunktion mit Datenbank
+[build]
+  publish   = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Datenbankmigrationen laufen automatisch bei jedem Deploy
+[database]
+  migrations_dir = "netlify/db/migrations"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    Permissions-Policy     = "geolocation=(), camera=(), microphone=()"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+# Die API antwortet nie aus dem Zwischenspeicher
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"
