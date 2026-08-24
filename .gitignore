@@ -1,0 +1,9 @@
+# Lokaler Netlify-Ordner
+.netlify
+
+# Abhängigkeiten
+node_modules
+
+# Artefakte des lokalen Testlaufs
+.api.test.js
+deno.lock

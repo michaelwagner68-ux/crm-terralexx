@@ -4,8 +4,10 @@
   "private": true,
   "description": "Terralexx CRM – Vertriebstool mit Netlify Database",
   "type": "commonjs",
-  "engines": {"node": ">=20"},
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-  "@netlify/database": "^2.0.0"
+    "@netlify/database": "^2.0.0"
   }
 }

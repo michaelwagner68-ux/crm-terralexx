@@ -805,6 +805,12 @@ const ACT_TYPES = {
 
 /* -------------------------------------------------------------- Helfer -- */
 const uid = p => p + "_" + Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-3);
+/* Freier Kennzeichner-Buchstabe fuer einen neuen Mandanten. Der Buchstabe geht
+   in jede Kontaktnummer ein (A-26-0042) und darf sich deshalb nicht doppeln. */
+const freierKennzeichner = companies => {
+  const belegt = (companies || []).map(c => (c.code || "").toUpperCase());
+  return "MNPQRSVWXYZBCDEFGHIJKLOTU".split("").find(b => !belegt.includes(b)) || "X";
+};
 const today = () => new Date().toISOString().slice(0, 10);
 const nowISO = () => new Date().toISOString();
 const addDays = (d, n) => {
@@ -5538,7 +5544,20 @@ function Settings({
     className: "card"
   }, /*#__PURE__*/React.createElement("div", {
     className: "card-h"
-  }, /*#__PURE__*/React.createElement("h3", null, "Mandanten")), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("h3", null, "Mandanten"), /*#__PURE__*/React.createElement("div", {
+    className: "spacer"
+  }), /*#__PURE__*/React.createElement("button", {
+    className: "btn sm accent",
+    onClick: () => upd({
+      companies: [...db.companies, {
+        id: uid("c"),
+        name: "Neuer Mandant",
+        code: freierKennzeichner(db.companies),
+        color: "#3D5AA9",
+        kinds: ["firmenkunde"]
+      }]
+    })
+  }, "+ Mandant")), /*#__PURE__*/React.createElement("div", {
     className: "card-b tight"
   }, db.companies.map(c => /*#__PURE__*/React.createElement(Row, {
     key: c.id
