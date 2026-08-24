@@ -6,10 +6,6 @@
 [functions]
   node_bundler = "esbuild"
 
-# Datenbankmigrationen laufen automatisch bei jedem Deploy
-[database]
-  migrations_dir = "netlify/db/migrations"
-
 [[headers]]
   for = "/*"
   [headers.values]

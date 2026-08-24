@@ -22,9 +22,9 @@ Verbindungsaufbau in `netlify/functions/api.js` betrifft.
 ```
 public/index.html                     Die Anwendung (unverändert einsetzbar)
 netlify/functions/api.js              Serverfunktion, bedient /api/*
-netlify/db/migrations/0001_init.sql   Datenbankschema
+netlify/database/migrations/          Datenbankschema
 netlify.toml                          Konfiguration
-package.json                          Abhängigkeit @netlify/neon
+package.json                          Abhängigkeit @netlify/database
 ```
 
 Die Anwendung erkennt beim Start selbst, ob ein Server vorhanden ist. Ist
@@ -47,16 +47,19 @@ Build command bleibt leer, Publish directory ist `public`.
 
 **3. Datenbank anlegen**
 
-Im Projekt auf Database → Add database. Netlify legt die Datenbank an und
-hinterlegt `NETLIFY_DATABASE_URL` automatisch als Umgebungsvariable. Beim
-nächsten Deploy laufen die Migrationen aus `netlify/db/migrations` von selbst.
+Im Projekt auf Database → Add database. Netlify legt die Datenbank an; die
+Serverfunktion verbindet sich über `@netlify/database` von selbst, es sind
+keine Zugangsdaten und keine Umgebungsvariablen von Hand zu hinterlegen.
 
-Alternativ über die Kommandozeile:
+Beim nächsten Deploy laufen die Migrationen aus `netlify/database/migrations`
+automatisch. Dieser Pfad ist von Netlify fest vorgegeben – Migrationen in
+einem anderen Ordner werden stillschweigend nicht angewendet, und die
+Datenbank bleibt dann ohne Tabellen.
+
+Der Stand lässt sich jederzeit prüfen:
 
 ```
-npx netlify-cli link
-npx netlify-cli db init
-npx netlify-cli deploy --prod
+npx netlify-cli db status
 ```
 
 **4. Administrator anlegen**

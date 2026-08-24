@@ -19,12 +19,11 @@ const crypto = require("crypto");
 let sqlFn = null;
 async function getSQL() {
   if (sqlFn) return sqlFn;
-  /* @netlify/neon liest NETLIFY_DATABASE_URL selbstständig; für lokale Tests
-     genügt DATABASE_URL mit dem normalen pg-Treiber. */
-  if (process.env.NETLIFY_DATABASE_URL) {
-    const {neon} = require("@netlify/neon");
-    sqlFn = neon();
-  } else {
+  /* Auf Netlify stellt @netlify/database die Verbindung selbst her; es braucht
+     keine Zugangsdaten im Quelltext und keine Umgebungsvariable von Hand.
+     Nur für die Tests aus Node heraus (apitest.js) tritt der normale
+     pg-Treiber mit DATABASE_URL an seine Stelle. */
+  if (process.env.DATABASE_URL) {
     const {Pool} = require("pg");
     const pool = new Pool({connectionString: process.env.DATABASE_URL});
     sqlFn = async (strings, ...vals) => {
@@ -32,6 +31,9 @@ async function getSQL() {
       const r = await pool.query(text, vals);
       return r.rows;
     };
+  } else {
+    const {getDatabase} = require("@netlify/database");
+    sqlFn = getDatabase().sql;
   }
   return sqlFn;
 }

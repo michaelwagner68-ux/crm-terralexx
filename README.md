@@ -9,7 +9,7 @@ mit Netlify Database als Datenhaltung.
 ```
 public/index.html                     Anwendung (React 18, kein Build nötig)
 netlify/functions/api.js              Serverfunktion, bedient /api/*
-netlify/db/migrations/0001_init.sql   Datenbankschema
+netlify/database/migrations/          Datenbankschema
 netlify.toml                          Netlify-Konfiguration
 apitest.js                            32 Tests gegen ein echtes Postgres
 devserver.js                          lokaler Testserver
